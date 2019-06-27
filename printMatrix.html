@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+	<form">
+		Width: <input id="width" type="text" name="Width" value="5"><br>
+		Height: <input id="height" type="text" name="Height" value="5"><br>
+		<button type="button"  onclick="printMatrixSpiral(0,0,document.getElementById('width').value,document.getElementById('height').value)">Print Matrix Spiral</button>
+	</form>
+	<p>Click the "Submit" button and the spiral values of matrix will be printed.</p>
+
+	<div id="parentHolder">
+
+	</div>
+</body>
+
+<script>
+	function addPara(inputText)
+	{
+		console.log(inputText)
+		var element = document.createElement("p");
+		element.appendChild(document.createTextNode(inputText));
+		document.getElementById('parentHolder').appendChild(element)
+	}
+
+	function printMatrixSpiral(i=0, j=0, width = 0, height = 0) {
+
+		if( i == 0 && j == 0)
+		{
+			document.getElementById('parentHolder').innerHTML = ""
+		}
+
+		// Invalid inputs
+		if (width <= 0 || height <= 0 || i < 0 || j < 0) {
+			return;
+		}
+
+		// Just one element in the data
+		if (1 == width && 1 == height) {
+			addPara(i.toString() + ',' + j.toString())
+
+			return;
+		}
+
+		if (width > 1) {
+			for (var a = j; a < j + width; ++a) {
+				addPara(i.toString() +  ',' +  a.toString())
+			}
+		} else { // Input is only a column
+			for (var a = i; a < i + height; ++a) {
+				addPara(a.toString() + ',' + (j + width - 1).toString())
+			}
+		}
+
+		// Input is only a column/row
+		if (width == 1 || height == 1) {
+			return;
+		}
+
+		for (var a = i + 1; a < i + height - 1; ++a) {
+			addPara(a.toString() + ',' + (j + width - 1).toString())
+		}
+
+		for (var a = j + width - 1; a >= i; --a) {
+			addPara((i + height - 1).toString() + ',' + (a).toString())
+		}
+
+		for (var a = i + height - 1 - 1; a >= j + 1; --a) {
+			addPara(a.toString() + ',' + j.toString())
+		}
+
+		printMatrixSpiral(i + 1, j + 1, width - 2, height - 2)
+	}
+
+</script>
+
+</html>
